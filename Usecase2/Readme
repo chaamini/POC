@@ -1,0 +1,12 @@
+Fetching Email with JSON text file attached and convert to XML with content routing 
+
+1. Connect to the email server and fetch the email. 
+2. Extract the text file attachment and parse it as JSON. 
+3. Split the JSON file based on time series and individual turbines. 
+4. Save the values as separate xml files (per turbine value) in the distinct folder labeled by time series.
+
+Sample Json and Samle XML (not the exact XML was shared) attached under the Files Folder
+
+Demo gmail Credentials
+un-voldemo22@gmail.com 
+pw-Aa123456@
