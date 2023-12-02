@@ -1,6 +1,5 @@
 import ballerina/io;
 import ballerina/http;
-import ballerina/file;
 
 // public function main() returns error? {
 //     string ediMultipleText = check io:fileReadString("resources/MSCONS_ExampleMultipleTS.edi");
@@ -13,8 +12,8 @@ import ballerina/file;
 // }
 
 service / on new http:Listener(5050) {
-    resource function get convertedEDI(file:READABLE ediFile) returns string|error? {
-        string ediMultipleText = check io:fileReadString(ediFile);
+    resource function get convertedEDI(string ediFileName) returns string|error? {
+        string ediMultipleText = check io:fileReadString("resources/" + ediFileName);
         Metered_services_consumption_report_message mscons = check fromEdiString(ediMultipleText);
         return mscons.toJsonString();
     }
