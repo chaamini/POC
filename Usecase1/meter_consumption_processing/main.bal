@@ -12,7 +12,7 @@ import ballerina/file;
 //     io:println(mscons_single.toJsonString());
 // }
 
-service / on new http:Listener(9090) {
+service / on new http:Listener(5050) {
     resource function get convertedEDI(file:READABLE ediFile) returns string|error? {
         string ediMultipleText = check io:fileReadString(ediFile);
         Metered_services_consumption_report_message mscons = check fromEdiString(ediMultipleText);
