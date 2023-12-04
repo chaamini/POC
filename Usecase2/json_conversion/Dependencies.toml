@@ -37,6 +37,20 @@ modules = [
 
 [[package]]
 org = "ballerina"
+name = "ftp"
+version = "2.9.0"
+dependencies = [
+	{org = "ballerina", name = "io"},
+	{org = "ballerina", name = "jballerina.java"},
+	{org = "ballerina", name = "log"},
+	{org = "ballerina", name = "task"}
+]
+modules = [
+	{org = "ballerina", packageName = "ftp", moduleName = "ftp"}
+]
+
+[[package]]
+org = "ballerina"
 name = "io"
 version = "1.6.0"
 dependencies = [
@@ -189,6 +203,7 @@ version = "0.1.0"
 dependencies = [
 	{org = "ballerina", name = "email"},
 	{org = "ballerina", name = "file"},
+	{org = "ballerina", name = "ftp"},
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "lang.regexp"},
 	{org = "ballerina", name = "log"},

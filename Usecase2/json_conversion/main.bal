@@ -1,11 +1,12 @@
 import ballerina/email;
 import ballerina/file;
-import ballerina/io;
+import ballerina/ftp;
 import ballerina/lang.regexp;
 import ballerina/log;
 import ballerina/mime;
 import ballerina/time;
 import ballerina/xmldata;
+import ballerina/io;
 
 //---- Following record types are used to represent the data in the JSON attachment ----------
 type TurbineReading record {
@@ -45,8 +46,24 @@ configurable string host = ?;
 configurable string username = ?;
 configurable string password = ?;
 configurable decimal pollingInterval = ?;
+configurable string ftphost = ?;
+configurable string ftpusername = ?;
+configurable string ftppassword = ?;
+configurable int port = ?;
 
 listener email:ImapListener emailListener = check new ({host, username, password, pollingInterval});
+
+  ftp:Client ftpEp = check new (clientConfig = {
+        protocol: "sftp",
+        host: ftphost,
+        port: port,
+        auth: {
+            credentials: {
+                username: ftpusername,
+                password: ftppassword
+            }
+        }
+    });
 
 service "emailObserver" on emailListener {
     remote function onMessage(email:Message email) {
@@ -85,7 +102,9 @@ function processTurbinePayload(TurbinePayload turbinePayload) returns error? {
             xml dataPointValueXml = check xmldata:toXml(dataPointValue);
             // Write the XML to a file
             string xmlFileName = check getXmlFilePath(turbine, Date);
-            _ = check io:fileWriteXml(xmlFileName, dataPointValueXml);
+            _ = check ftpEp->put(xmlFileName, dataPointValueXml);
+            io:println(xmlFileName);
+            io:println(dataPointValueXml);
         }
     }
 }
@@ -107,13 +126,12 @@ function ToDavaPointValue(string startTime, string stopTime, decimal Value) retu
     }
 };
 
-function getXmlFilePath(string turbine, string dateStartTime) returns string|error {
-    string timeDirectoryPath = check file:joinPath(file:getCurrentDir(), "OutputFiles", dateStartTime);
-    boolean dirExists = check file:test(timeDirectoryPath, file:EXISTS);
-    if !dirExists {
-        _ = check file:createDir(timeDirectoryPath, file:RECURSIVE);
+function getXmlFilePath(string turbine, string dateStartTime) returns string|error {  
+    string timeDirectoryPath = check file:joinPath("/voluepoc/OutputFiles", dateStartTime);
+    boolean|ftp:Error dirExists = ftpEp->isDirectory(timeDirectoryPath);
+    if dirExists is ftp:Error {
+        _ = check ftpEp->mkdir(timeDirectoryPath);
     }
-
     string xmlFileName = check file:joinPath(timeDirectoryPath, turbine);
     return xmlFileName + ".xml";
 }
