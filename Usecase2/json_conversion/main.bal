@@ -103,8 +103,8 @@ function processTurbinePayload(TurbinePayload turbinePayload) returns error? {
             // Write the XML to a file
             string xmlFileName = check getXmlFilePath(turbine, Date);
             _ = check ftpEp->put(xmlFileName, dataPointValueXml);
-            io:println(xmlFileName);
-            io:println(dataPointValueXml);
+            log:printInfo(xmlFileName);
+            log:printInfo(dataPointValueXml.toString());
         }
     }
 }
