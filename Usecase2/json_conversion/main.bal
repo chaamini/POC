@@ -6,7 +6,6 @@ import ballerina/log;
 import ballerina/mime;
 import ballerina/time;
 import ballerina/xmldata;
-import ballerina/io;
 
 //---- Following record types are used to represent the data in the JSON attachment ----------
 type TurbineReading record {
