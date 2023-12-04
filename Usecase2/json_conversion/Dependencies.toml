@@ -78,6 +78,17 @@ version = "0.0.0"
 
 [[package]]
 org = "ballerina"
+name = "lang.regexp"
+version = "0.0.0"
+dependencies = [
+	{org = "ballerina", name = "jballerina.java"}
+]
+modules = [
+	{org = "ballerina", packageName = "lang.regexp", moduleName = "lang.regexp"}
+]
+
+[[package]]
+org = "ballerina"
 name = "lang.value"
 version = "0.0.0"
 dependencies = [
@@ -149,6 +160,17 @@ modules = [
 ]
 
 [[package]]
+org = "ballerina"
+name = "xmldata"
+version = "2.7.0"
+dependencies = [
+	{org = "ballerina", name = "jballerina.java"}
+]
+modules = [
+	{org = "ballerina", packageName = "xmldata", moduleName = "xmldata"}
+]
+
+[[package]]
 org = "ballerinai"
 name = "observe"
 version = "0.0.0"
@@ -168,9 +190,11 @@ dependencies = [
 	{org = "ballerina", name = "email"},
 	{org = "ballerina", name = "file"},
 	{org = "ballerina", name = "io"},
+	{org = "ballerina", name = "lang.regexp"},
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "mime"},
 	{org = "ballerina", name = "time"},
+	{org = "ballerina", name = "xmldata"},
 	{org = "ballerinai", name = "observe"}
 ]
 modules = [
